@@ -1,5 +1,5 @@
-import { Composition } from "remotion";
-import { ParroquiaVideo, totalFrames } from "./Video";
+import { Composition, Still } from "remotion";
+import { Credits, ParroquiaVideo, totalFrames } from "./Video";
 import { FPS } from "./theme";
 
 export const MyComposition = () => {
@@ -21,6 +21,7 @@ export const MyComposition = () => {
         width={1920}
         height={1080}
       />
+      <Still id="Creditos" component={Credits} width={1920} height={1080} />
     </>
   );
 };
