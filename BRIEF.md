@@ -31,3 +31,9 @@ Parroquia de Santiago el Real · Medina del Campo (Valladolid)
 6. Cifras de la parroquia/diócesis (20 s)
 7. Campaña de suscripciones: por qué, cuánto (ej. 5 €/mes), cómo – QR (30 s)
 8. Cierre: «Gracias. Somos lo que tú nos ayudas a ser» + lema (10 s) → vuelve al inicio
+
+## Decisiones (versión beta)
+- Formato **horizontal 1920×1080**.
+- Se descartan las instrucciones externas; se sigue este brief.
+- Horarios, actividades, cuota, QR, IBAN y contacto → **marcadores visibles** ("Aquí irán los horarios", "Aquí irá el QR"…) para rellenar más adelante.
+- Fotos: se reciben por tandas de 16; se empieza a montar cuando el usuario diga "ya".
