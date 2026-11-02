@@ -6,7 +6,10 @@ export type Seg =
   | { k: "photo"; id: string; kicker?: string; title: string; dur: number }
   | { k: "tri"; ids: string[]; title: string; dur: number }
   | { k: "pillars"; dur: number }
-  | { k: "campaign"; id: string; dur: number }
+  | { k: "quote"; id: string; dur: number }
+  | { k: "costs"; id: string; dur: number }
+  | { k: "tax"; id: string; dur: number }
+  | { k: "howto"; id: string; dur: number }
   | { k: "info"; id: string; dur: number }
   | { k: "closing"; id: string; loopId: string; dur: number };
 
@@ -22,7 +25,7 @@ export const TIMELINE: Seg[] = [
   { k: "tri", ids: ["078", "085", "068"], title: "Santiago el Real", dur: T },
 
   // 2 · NUESTRO TEMPLO
-  { k: "chapter", id: "077", num: "01", title: "Nuestro templo", sub: "Antigua iglesia del noviciado jesuita, hoy parroquia de Santiago", dur: CH + 1 },
+  { k: "chapter", id: "077", num: "01", title: "Nuestro templo", sub: "Antigua iglesia del noviciado jesuita · Bien de Interés Cultural desde 1968", dur: CH + 1 },
   { k: "hero", id: "092", kicker: "Patrimonio", title: "Santiago Apóstol nos acoge", text: "Retablos, imágenes y siglos de historia que cuidamos entre todos.", dur: H },
   { k: "photo", id: "003", kicker: "Patrimonio", title: "Un templo que se explica y se comparte", dur: P },
   { k: "photo", id: "070", kicker: "Patrimonio", title: "Belleza al servicio de la fe", dur: P },
@@ -36,7 +39,7 @@ export const TIMELINE: Seg[] = [
   // 3 · LA VIDA DE CADA DÍA
   { k: "chapter", id: "048", num: "02", title: "La vida de cada día", sub: "Eucaristía, sacramentos y acompañamiento", dur: CH },
   { k: "hero", id: "031", kicker: "Cerca de los que sufren", title: "Llevamos la comunión a los enfermos", dur: H },
-  { k: "hero", id: "082", kicker: "Reconciliación", title: "Un lugar para el perdón y la escucha", dur: H },
+  { k: "hero", id: "082", kicker: "Viernes · 18:00 h", title: "Hora Santa y confesiones", dur: H },
   { k: "photo", id: "002", kicker: "Eucaristía", title: "Proclamamos la Palabra", dur: P },
   { k: "photo", id: "096", kicker: "Matrimonio", title: "Celebramos el amor", dur: P },
   { k: "photo", id: "058", kicker: "Sacramentos", title: "Acompañamos cada etapa de la vida", dur: P },
@@ -60,20 +63,20 @@ export const TIMELINE: Seg[] = [
   { k: "tri", ids: ["026", "030"], title: "Adviento", dur: T },
 
   // 5 · COMUNIDAD VIVA
-  { k: "chapter", id: "079", num: "04", title: "Una comunidad viva", sub: "Música, cultura, jóvenes y cofradías", dur: CH },
+  { k: "chapter", id: "079", num: "04", title: "Una comunidad viva", sub: "Música, cultura, jóvenes y cofradía", dur: CH },
   { k: "hero", id: "005", kicker: "Música", title: "Conciertos en el templo", dur: H },
   { k: "photo", id: "034", kicker: "Música", title: "Coro parroquial", dur: P },
-  { k: "photo", id: "099", kicker: "Cultura", title: "Cine en la parroquia", dur: P },
+  { k: "photo", id: "099", kicker: "Encuentros", title: "Oración y reflexión en el templo", dur: P },
   { k: "photo", id: "043", kicker: "Convivencia", title: "Compartir la mesa", dur: P },
   { k: "photo", id: "046", kicker: "Formación", title: "Encuentros y charlas", dur: P },
   { k: "tri", ids: ["047", "093", "097"], title: "Cultura y música", dur: T },
   { k: "tri", ids: ["017", "089", "029"], title: "Amistad y comunidad", dur: T },
   { k: "tri", ids: ["001", "007"], title: "Con nuestro obispo", dur: T },
   { k: "tri", ids: ["018", "025", "055"], title: "Celebramos juntos", dur: T },
-  { k: "tri", ids: ["021", "042", "057"], title: "Cofradías", dur: T },
+  { k: "tri", ids: ["021", "042", "057"], title: "Nuestra cofradía", dur: T },
   { k: "tri", ids: ["050", "072", "074"], title: "Semana Santa", dur: T },
-  { k: "tri", ids: ["080", "088", "091"], title: "Nuestras bandas", dur: T },
-  { k: "tri", ids: ["098", "020"], title: "Siempre en camino", dur: T },
+  { k: "tri", ids: ["080", "088"], title: "Nuestras bandas", dur: T },
+  { k: "tri", ids: ["098", "091"], title: "Siempre en camino", dur: T },
 
   // 6 · MANOS QUE SIRVEN
   { k: "chapter", id: "076", num: "05", title: "Manos que sirven", sub: "Voluntariado y Cáritas parroquial", dur: CH },
@@ -87,8 +90,11 @@ export const TIMELINE: Seg[] = [
   { k: "pillars", dur: 12 },
 
   // 8 · CAMPAÑA
-  { k: "campaign", id: "095", dur: 16 },
-  { k: "info", id: "077", dur: 10 },
+  { k: "quote", id: "069", dur: 8 },
+  { k: "costs", id: "077", dur: 13 },
+  { k: "tax", id: "058", dur: 12 },
+  { k: "howto", id: "095", dur: 16 },
+  { k: "info", id: "092", dur: 16 },
 
   // 9 · CIERRE → enlaza con la apertura
   { k: "closing", id: "056", loopId: "069", dur: 8 },

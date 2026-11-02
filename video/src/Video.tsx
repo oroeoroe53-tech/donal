@@ -218,41 +218,6 @@ const Cross: React.FC<{ size: number; color?: string }> = ({ size, color = C.red
   />
 );
 
-const Placeholder: React.FC<{ label: string; title?: string; w: number | string; h: number; big?: boolean }> = ({
-  label,
-  title,
-  w,
-  h,
-  big,
-}) => (
-  <div
-    style={{
-      width: w,
-      height: h,
-      border: `3px dashed ${C.gold}`,
-      borderRadius: 18,
-      backgroundColor: "rgba(216,178,106,0.08)",
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-      alignItems: big ? "center" : "flex-start",
-      padding: big ? 0 : "0 36px",
-      gap: 10,
-      boxSizing: "border-box",
-      textAlign: big ? "center" : "left",
-    }}
-  >
-    {title ? (
-      <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 22, letterSpacing: "0.22em", color: C.gold, textTransform: "uppercase" }}>
-        {title}
-      </div>
-    ) : null}
-    <div style={{ fontFamily: serif, fontStyle: "italic", fontWeight: 500, fontSize: big ? 44 : 36, color: C.ivory, opacity: 0.9 }}>
-      {label}
-    </div>
-  </div>
-);
-
 /* ---------- bloques ---------- */
 
 const OpeningLayout: React.FC<{ showText: boolean }> = ({ showText }) => (
@@ -451,40 +416,239 @@ const Pillars: React.FC = () => {
   );
 };
 
-const Campaign: React.FC<Extract<Seg, { k: "campaign" }>> = ({ id }) => {
+const Glass: React.FC<{ children: React.ReactNode; style?: React.CSSProperties; accent?: boolean }> = ({ children, style, accent }) => (
+  <div
+    style={{
+      backgroundColor: accent ? "rgba(94,15,18,0.82)" : "rgba(14,11,10,0.62)",
+      border: `2px solid ${accent ? C.gold : "rgba(216,178,106,0.45)"}`,
+      borderRadius: 22,
+      padding: "34px 40px",
+      boxSizing: "border-box",
+      boxShadow: "0 24px 60px rgba(0,0,0,0.45)",
+      ...style,
+    }}
+  >
+    {children}
+  </div>
+);
+
+const Label: React.FC<{ children: React.ReactNode }> = ({ children }) => (
+  <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 22, letterSpacing: "0.22em", color: C.gold, textTransform: "uppercase" }}>
+    {children}
+  </div>
+);
+
+const useStagger = (i: number, base = 0.8, step = 0.45) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  return spring({ frame: frame - s(base + i * step), fps, config: { damping: 200 }, durationInFrames: s(0.9) });
+};
+
+const QR: React.FC<{ file: string; size: number }> = ({ file, size }) => (
+  <div style={{ width: size, height: size, backgroundColor: "#fff", borderRadius: 16, padding: size * 0.04, boxSizing: "border-box" }}>
+    <Img src={staticFile(file)} style={{ width: "100%", height: "100%" }} />
+  </div>
+);
+
+const Quote: React.FC<Extract<Seg, { k: "quote" }>> = ({ id }) => {
+  const r = useReveal(0.4);
+  const r2 = useReveal(1.6);
+  return (
+    <AbsoluteFill>
+      <AbsoluteFill style={{ overflow: "hidden" }}>
+        <KenBurns id={id} />
+      </AbsoluteFill>
+      <AbsoluteFill style={{ backgroundColor: "rgba(14,11,10,0.74)" }} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center", padding: "0 220px", paddingBottom: BAR }}>
+        <div style={{ opacity: r }}>
+          <Kicker>Una puerta abierta para todos</Kicker>
+        </div>
+        <div
+          style={{
+            fontFamily: serif,
+            fontStyle: "italic",
+            fontWeight: 500,
+            fontSize: 74,
+            lineHeight: 1.18,
+            color: C.ivory,
+            marginTop: 40,
+            opacity: r,
+            transform: `translateY(${(1 - r) * 30}px)`,
+            textShadow: "0 6px 40px rgba(0,0,0,0.6)",
+          }}
+        >
+          «Tener la iglesia abierta no se mantiene por inercia: depende del compromiso y el afecto de quienes la valoran y la sienten suya.»
+        </div>
+        <div style={{ marginTop: 40, fontFamily: sans, fontSize: 30, color: C.gold, opacity: r2 }}>
+          Cuidar de lo que es de todos es tarea compartida.
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
+const COSTS = [
+  { t: "Calefacción en invierno", v: 490 },
+  { t: "Electricidad y megafonía", v: 380 },
+  { t: "Limpieza, suelo y consumibles", v: 260 },
+  { t: "Mantenimiento y cubiertas", v: 220 },
+  { t: "Seguros de edificio y culto", v: 210 },
+];
+
+const Costs: React.FC<Extract<Seg, { k: "costs" }>> = ({ id }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
   const r = useReveal(0.3);
-  const r2 = useReveal(1.2);
+  const count = Math.round(
+    interpolate(frame, [s(0.8), s(3.2)], [0, 52], { extrapolateLeft: "clamp", extrapolateRight: "clamp", easing: Easing.out(Easing.cubic) }),
+  );
   return (
     <AbsoluteFill>
       <Backdrop id={id} dim={0.72} />
-      <div style={{ position: "absolute", left: 120, top: 150, width: 860, opacity: r, transform: `translateY(${(1 - r) * 30}px)` }}>
-        <Kicker>Campaña de suscripciones</Kicker>
-        <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 104, lineHeight: 1.0, color: C.ivory, marginTop: 26 }}>
-          Hazte suscriptor de tu parroquia
+      <div style={{ position: "absolute", left: 120, top: 110, width: 720, opacity: r }}>
+        <Kicker>Transparencia y cuentas</Kicker>
+        <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 92, lineHeight: 1.0, color: C.ivory, marginTop: 24 }}>
+          Lo que no se ve, pero cuesta
         </div>
-        <div style={{ fontFamily: sans, fontSize: 32, lineHeight: 1.45, color: "rgba(247,241,230,0.92)", marginTop: 34 }}>
-          Con una aportación periódica, por pequeña que sea, cuidas este templo y haces posible toda su labor.
+        <div style={{ marginTop: 46, display: "flex", alignItems: "baseline", gap: 18 }}>
+          <span style={{ fontFamily: sans, fontSize: 40, color: C.gold }}>≈</span>
+          <span style={{ fontFamily: serif, fontWeight: 700, fontSize: 210, lineHeight: 0.9, color: C.ivory }}>{count} €</span>
         </div>
-        <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 40, color: C.gold, marginTop: 34 }}>
-          La Iglesia se sostiene gracias a ti.
+        <div style={{ fontFamily: sans, fontSize: 34, color: C.gold, marginTop: 34 }}>al día</div>
+        <div style={{ fontFamily: sans, fontSize: 28, lineHeight: 1.4, color: "rgba(247,241,230,0.88)", marginTop: 26 }}>
+          para mantener el templo abierto, iluminado y cuidado para todo el pueblo.
         </div>
+      </div>
+      <Glass style={{ position: "absolute", right: 120, top: 150, width: 860 }}>
+        <Label>Gastos fijos al mes</Label>
+        {COSTS.map((c, i) => {
+          const rr = spring({ frame: frame - s(1.2 + i * 0.4), fps, config: { damping: 200 }, durationInFrames: s(0.9) });
+          return (
+            <div key={c.t} style={{ marginTop: 30, opacity: rr }}>
+              <div style={{ display: "flex", justifyContent: "space-between", fontFamily: sans, fontSize: 28, color: C.ivory }}>
+                <span>{c.t}</span>
+                <span style={{ fontWeight: 700 }}>{c.v} €</span>
+              </div>
+              <div style={{ height: 12, borderRadius: 6, backgroundColor: "rgba(247,241,230,0.12)", marginTop: 12 }}>
+                <div style={{ width: `${(c.v / 490) * 100 * rr}%`, height: "100%", borderRadius: 6, background: `linear-gradient(to right, ${C.red}, ${C.gold})` }} />
+              </div>
+            </div>
+          );
+        })}
+        <div style={{ marginTop: 34, fontFamily: serif, fontStyle: "italic", fontSize: 32, color: C.gold }}>
+          La moneda del cepillo ya no alcanza: necesitamos suscripciones.
+        </div>
+      </Glass>
+    </AbsoluteFill>
+  );
+};
+
+const TAX = [
+  [5, 60, 48, "1 €"],
+  [10, 120, 96, "2 €"],
+  [15, 180, 144, "3 €"],
+  [20, 240, 192, "4 €"],
+] as const;
+
+const Tax: React.FC<Extract<Seg, { k: "tax" }>> = ({ id }) => {
+  const r = useReveal(0.3);
+  const big = useReveal(1.1);
+  const tab = useReveal(3.0);
+  return (
+    <AbsoluteFill>
+      <Backdrop id={id} dim={0.7} />
+      <div style={{ position: "absolute", left: 120, right: 120, top: 100, textAlign: "center", opacity: r }}>
+        <Kicker>Ley de Mecenazgo · 80 % de deducción en el IRPF</Kicker>
+        <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 96, color: C.ivory, marginTop: 20 }}>Tu ayuda se multiplica</div>
       </div>
       <div
         style={{
           position: "absolute",
+          left: 120,
           right: 120,
-          top: 120,
-          width: 700,
+          top: 330,
           display: "flex",
-          flexDirection: "column",
-          gap: 24,
-          opacity: r2,
-          transform: `translateY(${(1 - r2) * 30}px)`,
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 50,
+          opacity: big,
+          transform: `scale(${0.92 + 0.08 * big})`,
         }}
       >
-        <Placeholder big w={700} h={420} title="Escanea y suscríbete" label="Aquí irá el código QR" />
-        <Placeholder w={700} h={110} title="Cuota sugerida" label="Aquí irá la cuota" />
-        <Placeholder w={700} h={110} title="Domiciliación · Bizum" label="Aquí irán los datos de la cuenta" />
+        <Glass style={{ textAlign: "center", width: 440 }}>
+          <Label>Tú aportas</Label>
+          <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 130, color: C.ivory, lineHeight: 1 }}>10 €</div>
+          <div style={{ fontFamily: sans, fontSize: 26, color: "rgba(247,241,230,0.85)" }}>al mes</div>
+        </Glass>
+        <div style={{ fontFamily: serif, fontSize: 110, color: C.gold }}>→</div>
+        <Glass accent style={{ textAlign: "center", width: 440 }}>
+          <Label>A ti te cuesta</Label>
+          <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 130, color: C.ivory, lineHeight: 1 }}>2 €</div>
+          <div style={{ fontFamily: sans, fontSize: 26, color: "rgba(247,241,230,0.85)" }}>Hacienda te devuelve 96 € al año</div>
+        </Glass>
+      </div>
+      <div style={{ position: "absolute", left: 360, right: 360, top: 690, opacity: tab, display: "flex", gap: 24 }}>
+        {TAX.map(([m, , , real]) => (
+          <div key={m} style={{ flex: 1, textAlign: "center", borderTop: `2px solid ${C.gold}`, paddingTop: 14 }}>
+            <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 28, color: C.ivory }}>{m} €/mes</div>
+            <div style={{ fontFamily: sans, fontSize: 24, color: C.gold, marginTop: 6 }}>coste real {real}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 820, textAlign: "center", fontFamily: sans, fontSize: 22, color: "rgba(247,241,230,0.7)", opacity: tab }}>
+        Deducción del 80 % sobre los primeros 250 € donados al año.
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const HowTo: React.FC<Extract<Seg, { k: "howto" }>> = ({ id }) => {
+  const r = useReveal(0.3);
+  const a = useStagger(0, 0.9);
+  const b = useStagger(1, 0.9);
+  const c = useStagger(2, 0.9);
+  const d = useReveal(2.6);
+  const card = (v: number): React.CSSProperties => ({ opacity: v, transform: `translateY(${(1 - v) * 30}px)` });
+  return (
+    <AbsoluteFill>
+      <Backdrop id={id} dim={0.74} />
+      <div style={{ position: "absolute", left: 120, right: 120, top: 80, textAlign: "center", opacity: r }}>
+        <Kicker>Colabora con tu parroquia</Kicker>
+        <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 88, color: C.ivory, marginTop: 16 }}>Hazte suscriptor</div>
+      </div>
+      <div style={{ position: "absolute", left: 120, right: 120, top: 290, display: "flex", gap: 36, alignItems: "stretch" }}>
+        <Glass accent style={{ flex: 1.15, textAlign: "center", ...card(a) }}>
+          <Label>Bizum · Donación a ONG</Label>
+          <div style={{ fontFamily: sans, fontWeight: 700, fontSize: 132, color: C.ivory, letterSpacing: "0.06em", lineHeight: 1.1, marginTop: 18 }}>07524</div>
+          <div style={{ fontFamily: sans, fontSize: 24, lineHeight: 1.45, color: "rgba(247,241,230,0.9)", marginTop: 18 }}>
+            En tu banco: Bizum → Donación a ONG
+            <br />
+            Concepto: <i>Sostenimiento Santiago</i>
+          </div>
+        </Glass>
+        <Glass style={{ flex: 1.25, ...card(b) }}>
+          <Label>Transferencia · Domiciliación</Label>
+          <div style={{ fontFamily: sans, fontSize: 24, color: "rgba(247,241,230,0.8)", marginTop: 22 }}>Parroquia de Santiago el Real</div>
+          <div style={{ fontFamily: sans, fontWeight: 700, fontSize: 38, color: C.ivory, marginTop: 10, letterSpacing: "0.03em", lineHeight: 1.35 }}>
+            ES70 0075 5717
+            <br />
+            7007 0058 3860
+          </div>
+          <div style={{ fontFamily: sans, fontSize: 22, lineHeight: 1.45, color: "rgba(247,241,230,0.8)", marginTop: 16 }}>
+            Concepto: <i>Donativo + tu DNI</i> para la desgravación del 80 %.
+          </div>
+        </Glass>
+        <Glass style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", ...card(c) }}>
+          <Label>Online</Label>
+          <div style={{ marginTop: 18 }}>
+            <QR file="qr-dono.png" size={230} />
+          </div>
+          <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 28, color: C.ivory, marginTop: 16 }}>donoamiiglesia.es</div>
+          <div style={{ fontFamily: sans, fontSize: 20, color: "rgba(247,241,230,0.8)", marginTop: 6 }}>Busca «Santiago el Real, Medina del Campo»</div>
+        </Glass>
+      </div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 860, textAlign: "center", fontFamily: serif, fontStyle: "italic", fontSize: 38, color: C.gold, opacity: d }}>
+        Pide el boletín de suscripción en el despacho o junto al cepillo.
       </div>
     </AbsoluteFill>
   );
@@ -492,29 +656,55 @@ const Campaign: React.FC<Extract<Seg, { k: "campaign" }>> = ({ id }) => {
 
 const Info: React.FC<Extract<Seg, { k: "info" }>> = ({ id }) => {
   const r = useReveal(0.3);
-  const frame = useCurrentFrame();
-  const { fps } = useVideoConfig();
-  const cards = [
-    { t: "Horarios de misas", l: "Aquí irán los horarios" },
-    { t: "Despacho parroquial", l: "Aquí irá el horario del despacho" },
-    { t: "Contacto", l: "Aquí irán el teléfono y el correo" },
-  ];
+  const a = useStagger(0, 0.9);
+  const b = useStagger(1, 0.9);
+  const c = useStagger(2, 0.9);
+  const card = (v: number): React.CSSProperties => ({ opacity: v, transform: `translateY(${(1 - v) * 30}px)` });
+  const row = (k: string, v: string) => (
+    <div style={{ display: "flex", justifyContent: "space-between", gap: 20, padding: "14px 0", borderBottom: "1px solid rgba(216,178,106,0.3)" }}>
+      <span style={{ fontFamily: sans, fontSize: 27, color: "rgba(247,241,230,0.88)" }}>{k}</span>
+      <span style={{ fontFamily: sans, fontWeight: 700, fontSize: 27, color: C.ivory, whiteSpace: "nowrap" }}>{v}</span>
+    </div>
+  );
   return (
     <AbsoluteFill>
-      <Backdrop id={id} dim={0.7} />
-      <div style={{ position: "absolute", left: 120, right: 120, top: 130, textAlign: "center", opacity: r }}>
-        <Kicker>Parroquia de Santiago el Real</Kicker>
-        <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 96, color: C.ivory, marginTop: 20 }}>Te esperamos</div>
+      <Backdrop id={id} dim={0.74} />
+      <div style={{ position: "absolute", left: 120, top: 80, opacity: r }}>
+        <Kicker>Horario de invierno · septiembre a abril</Kicker>
+        <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 88, color: C.ivory, marginTop: 14 }}>Te esperamos</div>
       </div>
-      <div style={{ position: "absolute", left: 120, right: 120, top: 430, display: "flex", gap: 40 }}>
-        {cards.map((c, i) => {
-          const rr = spring({ frame: frame - s(0.9 + i * 0.5), fps, config: { damping: 200 }, durationInFrames: s(1) });
-          return (
-            <div key={c.t} style={{ flex: 1, opacity: rr, transform: `translateY(${(1 - rr) * 30}px)` }}>
-              <Placeholder w="100%" h={300} title={c.t} label={c.l} />
-            </div>
-          );
-        })}
+      <div style={{ position: "absolute", left: 120, right: 120, top: 280, display: "flex", gap: 36 }}>
+        <Glass style={{ flex: 1.6, ...card(a) }}>
+          <Label>Eucaristía</Label>
+          {row("De lunes a sábado (excepto martes)", "19:00 h")}
+          {row("Domingos", "13:00 h")}
+          {row("Apertura del templo", "17:00 h")}
+          {row("Hora Santa y confesiones · viernes", "18:00 h")}
+          <div style={{ fontFamily: sans, fontSize: 22, lineHeight: 1.4, color: "rgba(247,241,230,0.75)", marginTop: 18 }}>
+            Despacho y confesiones: desde la apertura hasta la celebración. Bautizos, bodas y visitas a enfermos: concertar con el sacerdote.
+          </div>
+        </Glass>
+        <Glass style={{ flex: 0.95, ...card(b) }}>
+          <Label>Contacto</Label>
+          <div style={{ fontFamily: sans, fontSize: 30, lineHeight: 1.6, color: C.ivory, marginTop: 18 }}>
+            983 801 711
+            <br />
+            santiagoelrealmdc@gmail.com
+            <br />
+            Pza. de Santiago s/n
+            <br />
+            Instagram @santiagoelreal.medina
+          </div>
+        </Glass>
+        <Glass accent style={{ flex: 0.8, display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", ...card(c) }}>
+          <Label>WhatsApp parroquial</Label>
+          <div style={{ marginTop: 18 }}>
+            <QR file="qr-whatsapp.png" size={250} />
+          </div>
+          <div style={{ fontFamily: sans, fontSize: 22, lineHeight: 1.4, color: "rgba(247,241,230,0.9)", marginTop: 16 }}>
+            Horarios, avisos y cambios
+          </div>
+        </Glass>
       </div>
     </AbsoluteFill>
   );
@@ -592,32 +782,17 @@ const BottomBar: React.FC = () => (
     }}
   >
     <Cross size={56} color={C.gold} />
-    <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 40, color: C.ivory }}>Dios cuenta contigo</div>
+    <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 40, color: C.ivory, whiteSpace: "nowrap" }}>Dios cuenta contigo</div>
     <div style={{ width: 2, height: 40, backgroundColor: "rgba(216,178,106,0.6)", margin: "0 8px" }} />
-    <div style={{ fontFamily: sans, fontWeight: 500, fontSize: 22, letterSpacing: "0.12em", color: "rgba(247,241,230,0.85)", textTransform: "uppercase" }}>
-      Parroquia de Santiago el Real · Hazte suscriptor
+    <div style={{ fontFamily: sans, fontWeight: 500, fontSize: 22, letterSpacing: "0.12em", color: "rgba(247,241,230,0.85)", textTransform: "uppercase", whiteSpace: "nowrap" }}>
+      Parroquia de Santiago el Real
     </div>
     <div style={{ flex: 1 }} />
-    <div style={{ fontFamily: sans, fontSize: 20, color: C.gold, textAlign: "right", lineHeight: 1.3 }}>
-      Escanea
-      <br />y colabora
+    <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 20, letterSpacing: "0.16em", color: C.gold, textTransform: "uppercase", whiteSpace: "nowrap" }}>
+      Colabora · Bizum ONG
     </div>
-    <div
-      style={{
-        width: 76,
-        height: 76,
-        border: `2px dashed ${C.gold}`,
-        borderRadius: 8,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: sans,
-        fontWeight: 700,
-        fontSize: 18,
-        color: C.ivory,
-      }}
-    >
-      QR
+    <div style={{ fontFamily: sans, fontWeight: 700, fontSize: 44, color: C.ivory, letterSpacing: "0.06em", border: `2px solid ${C.gold}`, borderRadius: 10, padding: "2px 20px" }}>
+      07524
     </div>
   </div>
 );
@@ -638,8 +813,14 @@ const render = (seg: Seg) => {
       return <Tri {...seg} />;
     case "pillars":
       return <Pillars />;
-    case "campaign":
-      return <Campaign {...seg} />;
+    case "quote":
+      return <Quote {...seg} />;
+    case "costs":
+      return <Costs {...seg} />;
+    case "tax":
+      return <Tax {...seg} />;
+    case "howto":
+      return <HowTo {...seg} />;
     case "info":
       return <Info {...seg} />;
     case "closing":
