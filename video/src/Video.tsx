@@ -75,14 +75,8 @@ const KenBurns: React.FC<{ id: string; seed?: number; from?: number; style?: Rea
 const Backdrop: React.FC<{ id: string; dim?: number }> = ({ id, dim = 0.55 }) => (
   <AbsoluteFill style={{ overflow: "hidden", backgroundColor: C.ink }}>
     <Img
-      src={src(id)}
-      style={{
-        width: "100%",
-        height: "100%",
-        objectFit: "cover",
-        transform: "scale(1.2)",
-        filter: "blur(38px) saturate(1.1)",
-      }}
+      src={staticFile(`blur/${id}.jpg`)}
+      style={{ width: "100%", height: "100%", objectFit: "cover", transform: "scale(1.1)" }}
     />
     <AbsoluteFill style={{ backgroundColor: `rgba(14,11,10,${dim})` }} />
   </AbsoluteFill>
