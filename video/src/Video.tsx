@@ -879,8 +879,7 @@ export const Credits: React.FC = () => {
         <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center", paddingBottom: BAR }}>
           <Cross size={70} color={C.gold} />
           <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 40, color: "rgba(247,241,230,0.85)", marginTop: 24 }}>Créditos</div>
-          {line("Idea, guion y realización", "Ana Fernández")}
-          {line("Fotografías", "Comunidad parroquial · Jaci Navas")}
+          {line("Idea, guion y realización", "Pablo Martín Fernández")}
           <div style={{ marginTop: 44, fontFamily: sans, fontSize: 24, color: "rgba(247,241,230,0.7)" }}>
             Parroquia de Santiago el Real · Medina del Campo · 2026
           </div>
