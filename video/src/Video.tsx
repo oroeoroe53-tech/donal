@@ -711,14 +711,8 @@ const Info: React.FC<Extract<Seg, { k: "info" }>> = ({ id }) => {
 };
 
 const Closing: React.FC<Extract<Seg, { k: "closing" }>> = ({ id }) => {
-  const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
   const r = useReveal(0.4);
   const r2 = useReveal(1.2);
-  const toLoop = interpolate(frame, [durationInFrames - s(1.6), durationInFrames - 1], [0, 1], {
-    extrapolateLeft: "clamp",
-    extrapolateRight: "clamp",
-  });
   return (
     <AbsoluteFill>
       <PhotoStage id={id} side="right" />
@@ -734,10 +728,6 @@ const Closing: React.FC<Extract<Seg, { k: "closing" }>> = ({ id }) => {
           Tu parroquia, también.
         </div>
       </div>
-      {/* Fundido final hacia el primer fotograma para que el bucle no se note */}
-      <AbsoluteFill style={{ opacity: toLoop }}>
-        <FrozenOpening />
-      </AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -825,6 +815,8 @@ const render = (seg: Seg) => {
       return <Info {...seg} />;
     case "closing":
       return <Closing {...seg} />;
+    case "credits":
+      return <CreditsCard />;
   }
 };
 
@@ -863,27 +855,45 @@ export const ParroquiaVideo: React.FC = () => {
 };
 
 /* ---------- créditos (prueba) ---------- */
+const CreditsCard: React.FC = () => {
+  const r = useReveal(0.3);
+  const frame = useCurrentFrame();
+  const { durationInFrames } = useVideoConfig();
+  const toLoop = interpolate(frame, [durationInFrames - s(1.4), durationInFrames - 1], [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
+  return (
+    <AbsoluteFill>
+      <Backdrop id="056" dim={0.8} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center", paddingBottom: BAR, opacity: r }}>
+        <Cross size={70} color={C.gold} />
+        <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 40, color: "rgba(247,241,230,0.85)", marginTop: 24 }}>Créditos</div>
+        <div style={{ marginTop: 34 }}>
+          <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 20, letterSpacing: "0.28em", color: C.gold, textTransform: "uppercase" }}>
+            Idea, guion y realización
+          </div>
+          <div style={{ fontFamily: serif, fontWeight: 600, fontSize: 52, color: C.ivory, marginTop: 6 }}>Pablo Martín Fernández</div>
+        </div>
+        <div style={{ marginTop: 44, fontFamily: sans, fontSize: 24, color: "rgba(247,241,230,0.7)" }}>
+          Parroquia de Santiago el Real · Medina del Campo · 2026
+        </div>
+      </AbsoluteFill>
+      {/* Fundido final hacia el primer fotograma para que el bucle no se note */}
+      <AbsoluteFill style={{ opacity: toLoop }}>
+        <FrozenOpening />
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
 export const Credits: React.FC = () => {
   const { width } = useVideoConfig();
   const k = width / W;
-  const line = (label: string, value: string) => (
-    <div style={{ marginTop: 34 }}>
-      <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 20, letterSpacing: "0.28em", color: C.gold, textTransform: "uppercase" }}>{label}</div>
-      <div style={{ fontFamily: serif, fontWeight: 600, fontSize: 52, color: C.ivory, marginTop: 6 }}>{value}</div>
-    </div>
-  );
   return (
     <AbsoluteFill style={{ backgroundColor: C.ink }}>
       <div style={{ width: W, height: H, transform: `scale(${k})`, transformOrigin: "top left", position: "relative", overflow: "hidden" }}>
-        <Backdrop id="056" dim={0.8} />
-        <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center", paddingBottom: BAR }}>
-          <Cross size={70} color={C.gold} />
-          <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 40, color: "rgba(247,241,230,0.85)", marginTop: 24 }}>Créditos</div>
-          {line("Idea, guion y realización", "Pablo Martín Fernández")}
-          <div style={{ marginTop: 44, fontFamily: sans, fontSize: 24, color: "rgba(247,241,230,0.7)" }}>
-            Parroquia de Santiago el Real · Medina del Campo · 2026
-          </div>
-        </AbsoluteFill>
+        <CreditsCard />
         <BottomBar />
       </div>
     </AbsoluteFill>

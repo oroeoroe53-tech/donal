@@ -11,7 +11,8 @@ export type Seg =
   | { k: "tax"; id: string; dur: number }
   | { k: "howto"; id: string; dur: number }
   | { k: "info"; id: string; dur: number }
-  | { k: "closing"; id: string; loopId: string; dur: number };
+  | { k: "closing"; id: string; loopId: string; dur: number }
+  | { k: "credits"; dur: number };
 
 const H = 6; // protagonista
 const P = 3.5; // normal
@@ -97,7 +98,8 @@ export const TIMELINE: Seg[] = [
   { k: "info", id: "092", dur: 16 },
 
   // 9 · CIERRE → enlaza con la apertura
-  { k: "closing", id: "056", loopId: "069", dur: 8 },
+  { k: "closing", id: "056", loopId: "069", dur: 7 },
+  { k: "credits", dur: 5 },
 ];
 
 export const TRANSITION = 0.6; // segundos de fundido entre bloques
