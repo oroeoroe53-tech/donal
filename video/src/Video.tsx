@@ -647,8 +647,11 @@ const HowTo: React.FC<Extract<Seg, { k: "howto" }>> = ({ id }) => {
           <div style={{ fontFamily: sans, fontSize: 20, color: "rgba(247,241,230,0.8)", marginTop: 6 }}>Busca «Santiago el Real, Medina del Campo»</div>
         </Glass>
       </div>
-      <div style={{ position: "absolute", left: 0, right: 0, top: 860, textAlign: "center", fontFamily: serif, fontStyle: "italic", fontSize: 38, color: C.gold, opacity: d }}>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 845, textAlign: "center", fontFamily: serif, fontStyle: "italic", fontSize: 38, color: C.gold, opacity: d }}>
         Pide el boletín de suscripción en el despacho o junto al cepillo.
+      </div>
+      <div style={{ position: "absolute", left: 0, right: 0, top: 920, textAlign: "center", fontFamily: sans, fontSize: 24, color: "rgba(247,241,230,0.75)", opacity: d }}>
+        También con colectas, donativos, la X de la Iglesia en la Renta y herencias.
       </div>
     </AbsoluteFill>
   );
@@ -702,7 +705,7 @@ const VENTAJAS = [
   ["Estabilidad", "Permite planificar la luz, el mantenimiento, la catequesis, la caridad…"],
   ["Continuidad", "Tu ayuda sigue presente, incluso cuando no estás."],
   ["Transparencia", "Siempre sabrás a qué se destina tu dinero."],
-  ["Beneficios fiscales", "Si aportas 100 € al año, a ti solo te cuesta 20 €."],
+  ["Beneficios fiscales", "Hasta un 80 % de deducción en la Renta."],
 ];
 
 const Ventajas: React.FC<Extract<Seg, { k: "ventajas" }>> = ({ id }) => {

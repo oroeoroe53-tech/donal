@@ -96,11 +96,9 @@ export const TIMELINE: Seg[] = [
   // 8 · CAMPAÑA
   { k: "diocese", id: "059", dur: 9 },
   { k: "ventajas", id: "077", dur: 14 },
-  { k: "quote", id: "069", dur: 8 },
   { k: "costs", id: "077", dur: 13 },
   { k: "tax", id: "058", dur: 12 },
   { k: "howto", id: "095", dur: 16 },
-  { k: "formas", id: "079", dur: 12 },
   { k: "info", id: "092", dur: 16 },
 
   // 9 · CIERRE → enlaza con la apertura
