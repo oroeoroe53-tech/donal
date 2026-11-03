@@ -269,7 +269,7 @@ const OpeningText: React.FC = () => {
       >
         Parroquia de Santiago el Real
         <br />
-        Medina del Campo · Diócesis de Valladolid
+        Medina del Campo · Archidiócesis de Valladolid
       </div>
     </div>
   );
@@ -654,6 +654,148 @@ const HowTo: React.FC<Extract<Seg, { k: "howto" }>> = ({ id }) => {
   );
 };
 
+const DiocesanTag: React.FC<{ short?: boolean }> = ({ short }) => (
+  <div style={{ display: "flex", alignItems: "center", gap: 14, fontFamily: sans, fontWeight: 600, fontSize: 20, letterSpacing: "0.2em", color: C.gold, textTransform: "uppercase" }}>
+    <Cross size={34} color={C.gold} />
+    {short ? "Archidiócesis de Valladolid" : "Archidiócesis de Valladolid · Comisión para el Sostenimiento"}
+  </div>
+);
+
+const Diocese: React.FC<Extract<Seg, { k: "diocese" }>> = ({ id }) => {
+  const r = useReveal(0.3);
+  const r2 = useReveal(1.2);
+  const words = ["Compromiso", "Fe", "Generosidad"];
+  return (
+    <AbsoluteFill>
+      <AbsoluteFill style={{ overflow: "hidden" }}>
+        <KenBurns id={id} />
+      </AbsoluteFill>
+      <AbsoluteFill style={{ backgroundColor: "rgba(14,11,10,0.68)" }} />
+      <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center", paddingBottom: BAR }}>
+        <div style={{ opacity: r }}>
+          <DiocesanTag />
+        </div>
+        <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 132, lineHeight: 1, color: C.ivory, marginTop: 36, opacity: r, transform: `translateY(${(1 - r) * 30}px)` }}>
+          Ayuda a tu parroquia
+        </div>
+        <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 50, color: C.gold, marginTop: 26, opacity: r2 }}>
+          Con tu suscripción periódica, colaboras para que siga abierta
+        </div>
+        <div style={{ display: "flex", gap: 30, alignItems: "center", marginTop: 54, opacity: r2 }}>
+          {words.map((w, i) => (
+            <React.Fragment key={w}>
+              {i > 0 ? <span style={{ width: 60, height: 2, backgroundColor: C.gold }} /> : null}
+              <span style={{ fontFamily: sans, fontWeight: 600, fontSize: 34, letterSpacing: "0.12em", color: i === 1 ? C.gold : C.ivory, textTransform: "uppercase" }}>{w}</span>
+            </React.Fragment>
+          ))}
+        </div>
+        <div style={{ fontFamily: sans, fontSize: 28, color: "rgba(247,241,230,0.85)", marginTop: 30, opacity: r2 }}>
+          La vida de tu parroquia se construye día a día
+        </div>
+      </AbsoluteFill>
+    </AbsoluteFill>
+  );
+};
+
+const VENTAJAS = [
+  ["Comodidad", "Tú fijas la cantidad: mensual, trimestral o anual. Se gestiona sola."],
+  ["Estabilidad", "Permite planificar la luz, el mantenimiento, la catequesis, la caridad…"],
+  ["Continuidad", "Tu ayuda sigue presente, incluso cuando no estás."],
+  ["Transparencia", "Siempre sabrás a qué se destina tu dinero."],
+  ["Beneficios fiscales", "Si aportas 100 € al año, a ti solo te cuesta 20 €."],
+];
+
+const Ventajas: React.FC<Extract<Seg, { k: "ventajas" }>> = ({ id }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const r = useReveal(0.3);
+  return (
+    <AbsoluteFill>
+      <Backdrop id={id} dim={0.76} />
+      <div style={{ position: "absolute", left: 120, right: 120, top: 80, opacity: r }}>
+        <DiocesanTag />
+        <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 86, color: C.ivory, marginTop: 18 }}>
+          Cinco ventajas de la suscripción periódica
+        </div>
+      </div>
+      <div style={{ position: "absolute", left: 120, right: 120, top: 330, display: "flex", gap: 26 }}>
+        {VENTAJAS.map(([t, d], i) => {
+          const v = spring({ frame: frame - s(1.0 + i * 0.7), fps, config: { damping: 200 }, durationInFrames: s(0.9) });
+          return (
+            <Glass key={t} accent={i === 4} style={{ flex: 1, padding: "30px 28px", opacity: v, transform: `translateY(${(1 - v) * 36}px)` }}>
+              <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 96, lineHeight: 1, color: C.gold }}>{i + 1}</div>
+              <div style={{ fontFamily: sans, fontWeight: 700, fontSize: 26, letterSpacing: "0.08em", color: C.ivory, textTransform: "uppercase", marginTop: 20 }}>{t}</div>
+              <div style={{ fontFamily: sans, fontSize: 24, lineHeight: 1.45, color: "rgba(247,241,230,0.88)", marginTop: 16 }}>{d}</div>
+            </Glass>
+          );
+        })}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+const FORMAS = [
+  ["Colectas", ""],
+  ["Donativos", ""],
+  ["Suscripciones periódicas", "donoamiiglesia.es"],
+  ["Declaración de la Renta", "Marcando la X de la Iglesia"],
+  ["Herencias", "Un legado para tu parroquia"],
+];
+
+const Formas: React.FC<Extract<Seg, { k: "formas" }>> = ({ id }) => {
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const r = useReveal(0.3);
+  const end = useReveal(4.6);
+  return (
+    <AbsoluteFill>
+      <Backdrop id={id} dim={0.76} />
+      <div style={{ position: "absolute", left: 120, top: 90, width: 760, opacity: r }}>
+        <DiocesanTag short />
+        <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 90, lineHeight: 1.02, color: C.ivory, marginTop: 22 }}>
+          Gracias por sostener tu Iglesia
+        </div>
+        <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 38, lineHeight: 1.35, color: C.gold, marginTop: 40, opacity: end }}>
+          Un gesto libre y consciente.
+          <br />
+          Un compromiso con tu comunidad.
+          <br />
+          Una ayuda para que la parroquia siga siendo un hogar para todos.
+        </div>
+      </div>
+      <div style={{ position: "absolute", right: 120, top: 110, width: 820 }}>
+        {FORMAS.map(([t, d], i) => {
+          const v = spring({ frame: frame - s(0.9 + i * 0.6), fps, config: { damping: 200 }, durationInFrames: s(0.9) });
+          const hi = i === 2;
+          return (
+            <div
+              key={t}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 30,
+                padding: "18px 30px",
+                marginBottom: 16,
+                borderRadius: 18,
+                backgroundColor: hi ? "rgba(94,15,18,0.85)" : "rgba(14,11,10,0.55)",
+                border: `2px solid ${hi ? C.gold : "rgba(216,178,106,0.35)"}`,
+                opacity: v,
+                transform: `translateX(${(1 - v) * 60}px)`,
+              }}
+            >
+              <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 84, lineHeight: 1, color: C.gold, width: 60 }}>{i + 1}</div>
+              <div>
+                <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 34, color: C.ivory }}>{t}</div>
+                {d ? <div style={{ fontFamily: sans, fontSize: 22, color: "rgba(247,241,230,0.8)", marginTop: 4 }}>{d}</div> : null}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 const Info: React.FC<Extract<Seg, { k: "info" }>> = ({ id }) => {
   const r = useReveal(0.3);
   const a = useStagger(0, 0.9);
@@ -803,6 +945,12 @@ const render = (seg: Seg) => {
       return <Tri {...seg} />;
     case "pillars":
       return <Pillars />;
+    case "diocese":
+      return <Diocese {...seg} />;
+    case "ventajas":
+      return <Ventajas {...seg} />;
+    case "formas":
+      return <Formas {...seg} />;
     case "quote":
       return <Quote {...seg} />;
     case "costs":
