@@ -79,7 +79,7 @@ export const TIMELINE: Seg[] = [
   { k: "tri", ids: ["018", "025", "055"], title: "Celebramos juntos", dur: T },
   { k: "tri", ids: ["021", "042", "057"], title: "Nuestra cofradía", dur: T },
   { k: "tri", ids: ["050", "072", "074"], title: "Semana Santa", dur: T },
-  { k: "tri", ids: ["080", "088"], title: "Nuestras bandas", dur: T },
+  { k: "tri", ids: ["080", "088"], title: "Nuestra banda", dur: T },
   { k: "tri", ids: ["098", "091"], title: "Siempre en camino", dur: T },
 
   // 6 · MANOS QUE SIRVEN

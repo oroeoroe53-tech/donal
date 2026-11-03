@@ -1020,12 +1020,15 @@ const CreditsCard: React.FC = () => {
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center", paddingBottom: BAR, opacity: r }}>
         <Cross size={70} color={C.gold} />
         <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 40, color: "rgba(247,241,230,0.85)", marginTop: 24 }}>Créditos</div>
-        <div style={{ marginTop: 34 }}>
-          <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 20, letterSpacing: "0.28em", color: C.gold, textTransform: "uppercase" }}>
-            Idea, guion y realización
+        {[
+          ["Idea y guion", "Pablo Martín Fernández · D. Álvaro de la Riva de la Red"],
+          ["Realización", "Pablo Martín Fernández"],
+        ].map(([l, v]) => (
+          <div key={l} style={{ marginTop: 34 }}>
+            <div style={{ fontFamily: sans, fontWeight: 600, fontSize: 20, letterSpacing: "0.28em", color: C.gold, textTransform: "uppercase" }}>{l}</div>
+            <div style={{ fontFamily: serif, fontWeight: 600, fontSize: 50, color: C.ivory, marginTop: 6 }}>{v}</div>
           </div>
-          <div style={{ fontFamily: serif, fontWeight: 600, fontSize: 52, color: C.ivory, marginTop: 6 }}>Pablo Martín Fernández</div>
-        </div>
+        ))}
         <div style={{ marginTop: 44, fontFamily: sans, fontSize: 24, color: "rgba(247,241,230,0.7)" }}>
           Parroquia de Santiago el Real · Medina del Campo · 2026
         </div>
