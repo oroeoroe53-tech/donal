@@ -204,17 +204,11 @@ const TextBlock: React.FC<{
   );
 };
 
-const Cross: React.FC<{ size: number; color?: string }> = ({ size, color = C.red }) => (
-  <div
-    style={{
-      width: size * 0.77,
-      height: size,
-      backgroundColor: color,
-      WebkitMaskImage: `url(${staticFile("cruz.png")})`,
-      WebkitMaskSize: "contain",
-      WebkitMaskRepeat: "no-repeat",
-      WebkitMaskPosition: "center",
-    }}
+/** Logo oficial de la parroquia (cruz de Santiago con venera). */
+const Cross: React.FC<{ size: number; color?: string }> = ({ size }) => (
+  <Img
+    src={staticFile("logo.png")}
+    style={{ height: size, width: "auto", display: "block", filter: "drop-shadow(0 4px 14px rgba(0,0,0,0.45))" }}
   />
 );
 
@@ -235,7 +229,7 @@ const OpeningText: React.FC = () => {
   return (
     <div style={{ position: "absolute", left: 140, top: 200, width: 900 }}>
       <div style={{ opacity: r, transform: `translateY(${(1 - r) * 20}px)` }}>
-        <Cross size={120} />
+        <Cross size={170} />
         <div style={{ height: 40 }} />
         <Kicker>Día de la Iglesia Diocesana 2026</Kicker>
       </div>
@@ -659,7 +653,7 @@ const HowTo: React.FC<Extract<Seg, { k: "howto" }>> = ({ id }) => {
 
 const DiocesanTag: React.FC<{ short?: boolean }> = ({ short }) => (
   <div style={{ display: "flex", alignItems: "center", gap: 14, fontFamily: sans, fontWeight: 600, fontSize: 20, letterSpacing: "0.2em", color: C.gold, textTransform: "uppercase" }}>
-    <Cross size={34} color={C.gold} />
+    <Cross size={44} color={C.gold} />
     {short ? "Archidiócesis de Valladolid" : "Archidiócesis de Valladolid · Comisión para el Sostenimiento"}
   </div>
 );
@@ -864,7 +858,7 @@ const Closing: React.FC<Extract<Seg, { k: "closing" }>> = ({ id }) => {
       <Scrim from="left" />
       <div style={{ position: "absolute", left: 140, top: 260, width: 860 }}>
         <div style={{ opacity: r, transform: `translateY(${(1 - r) * 30}px)` }}>
-          <Cross size={90} />
+          <Cross size={140} />
           <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 150, color: C.ivory, marginTop: 30 }}>Gracias</div>
         </div>
         <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 54, color: C.gold, opacity: r2, marginTop: 10, lineHeight: 1.2 }}>
@@ -916,7 +910,7 @@ const BottomBar: React.FC = () => (
       gap: 22,
     }}
   >
-    <Cross size={56} color={C.gold} />
+    <Cross size={78} color={C.gold} />
     <div style={{ fontFamily: serif, fontWeight: 700, fontSize: 40, color: C.ivory, whiteSpace: "nowrap" }}>Dios cuenta contigo</div>
     <div style={{ width: 2, height: 40, backgroundColor: "rgba(216,178,106,0.6)", margin: "0 8px" }} />
     <div style={{ fontFamily: sans, fontWeight: 500, fontSize: 22, letterSpacing: "0.12em", color: "rgba(247,241,230,0.85)", textTransform: "uppercase", whiteSpace: "nowrap" }}>
@@ -1018,7 +1012,7 @@ const CreditsCard: React.FC = () => {
     <AbsoluteFill>
       <Backdrop id="056" dim={0.8} />
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", textAlign: "center", paddingBottom: BAR, opacity: r }}>
-        <Cross size={70} color={C.gold} />
+        <Cross size={110} color={C.gold} />
         <div style={{ fontFamily: serif, fontStyle: "italic", fontSize: 40, color: "rgba(247,241,230,0.85)", marginTop: 24 }}>Créditos</div>
         {[
           ["Idea y guion", "Pablo Martín Fernández · D. Álvaro de la Riva de la Red"],
